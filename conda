@@ -1,0 +1,39 @@
+if [ $1 = "activate" ]; then
+    ln -sf /opt/conda/$2 ~/.hconda/profile
+    source ~/.bashrc
+elif [ $1 = "env" ]; then
+    if [ $2 = "list" ]; then
+        echo "* :" $(readlink ~/.hconda/profile)
+        ls /opt/conda     
+    else
+        echo "Unknown option $2"
+    fi
+elif [ $1 = "sync" ]; then
+    echo export PS1="\"($2) \[\e]0;\u@\h: \w\a\]\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\\$ \"" > /opt/conda/$2
+    echo export PATH=/opt/python/$2/bin:\$PATH >> /opt/conda/$2
+    echo $2 "synced"
+elif [ $1 = "remove" ]; then
+    echo "Remove $2 [y/n]?:"
+    read removeflag
+    if [ $removeflag = "y" ]; then
+        rm -rf /opt/python/$2
+        rm -rf /opt/conda/$2
+    fi
+elif [ $1 = "create" ]; then
+    if [ $2 = "-n" ]; then
+        
+    else
+        echo "Please use this command like this: conda create -n xxx python=x.x.x"
+    fi
+elif [ $1 = "help" ]; then
+    echo "Options:"
+    echo "  conda activate env: to activate an env"
+    echo "  conda env list: to show avaiable env"
+    echo "  conda sync: to generate a configuration for a package"
+    echo "  conda remove: to remove a package and its configuration"
+    echo "  conda help: to print this information"
+    echo "For any questions, you could email <houchengze@republlicofhou.cn> for help"
+else
+    echo "Unknown Command $1"
+    echo "Use conda help to show avaiable commands"
+fi

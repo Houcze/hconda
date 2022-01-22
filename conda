@@ -19,12 +19,6 @@ elif [ $1 = "remove" ]; then
         rm -rf /opt/python/$2
         rm -rf /opt/conda/$2
     fi
-elif [ $1 = "create" ]; then
-    if [ $2 = "-n" ]; then
-        
-    else
-        echo "Please use this command like this: conda create -n xxx python=x.x.x"
-    fi
 elif [ $1 = "help" ]; then
     echo "Options:"
     echo "  conda activate env: to activate an env"
